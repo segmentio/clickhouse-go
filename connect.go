@@ -58,7 +58,7 @@ func dial(secure, skipVerify bool, hosts []string, readTimeout, writeTimeout tim
 					InsecureSkipVerify: skipVerify,
 				})
 		default:
-			conn, err = net.DialTimeout("tcp", hosts[num], 5*time.Second)
+			conn, err = net.DialTimeout("tcp", hosts[num], 60*time.Second)
 		}
 		if err == nil {
 			logf("[dial] secure=%t, skip_verify=%t, strategy=%s, ident=%d, server=%d -> %s", secure, skipVerify, openStrategy, ident, num, conn.RemoteAddr())
