@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/kshvakov/clickhouse/lib/binary"
+	"github.com/segmentio/clickhouse/lib/binary"
 )
 
 type querySettingType int

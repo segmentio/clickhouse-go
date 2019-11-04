@@ -3,7 +3,7 @@ package column
 import (
 	"time"
 
-	"github.com/kshvakov/clickhouse/lib/binary"
+	"github.com/segmentio/clickhouse/lib/binary"
 )
 
 type DateTime struct {

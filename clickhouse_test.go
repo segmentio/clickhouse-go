@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kshvakov/clickhouse"
-	"github.com/kshvakov/clickhouse/lib/column"
-	"github.com/kshvakov/clickhouse/lib/types"
+	"github.com/segmentio/clickhouse"
+	"github.com/segmentio/clickhouse/lib/column"
+	"github.com/segmentio/clickhouse/lib/types"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kshvakov/clickhouse"
-	"github.com/kshvakov/clickhouse/lib/data"
+	"github.com/segmentio/clickhouse"
+	"github.com/segmentio/clickhouse/lib/data"
 	"github.com/stretchr/testify/assert"
 )
 
