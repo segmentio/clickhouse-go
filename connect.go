@@ -99,6 +99,7 @@ func dial(options connOptions) (*connect, error) {
 				buffer:       bufio.NewReader(conn),
 				readTimeout:  options.readTimeout,
 				writeTimeout: options.writeTimeout,
+				hostname:     options.hosts[num],
 			}, nil
 		} else {
 			options.logf(
@@ -119,6 +120,7 @@ type connect struct {
 	net.Conn
 	logf                  func(string, ...interface{})
 	ident                 int
+	hostname              string
 	buffer                *bufio.Reader
 	closed                bool
 	readTimeout           time.Duration

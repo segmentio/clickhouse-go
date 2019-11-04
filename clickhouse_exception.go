@@ -10,6 +10,7 @@ type Exception struct {
 	Name       string
 	Message    string
 	StackTrace string
+	Host       string
 	nested     error
 }
 
@@ -43,5 +44,6 @@ func (ch *clickhouse) exception() error {
 	if hasNested {
 		e.nested = ch.exception()
 	}
+	e.Host = ch.conn.hostname
 	return &e
 }
