@@ -1,4 +1,4 @@
-module github.com/kshvakov/clickhouse
+module github.com/segmentio/clickhouse
 
 go 1.12
 
