@@ -174,7 +174,7 @@ func open(dsn string) (*clickhouse, error) {
 		ch.logf = logger.Printf
 	}
 	ch.logf = func(format string, v ...interface{}) {
-		fmt.Printf("debug output: "+format, v...)
+		fmt.Printf("debug output: "+format+"\n", v...)
 	}
 	ch.logf("host(s)=%s, database=%s, username=%s",
 		strings.Join(hosts, ", "),
