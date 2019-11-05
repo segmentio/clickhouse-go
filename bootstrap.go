@@ -173,6 +173,9 @@ func open(dsn string) (*clickhouse, error) {
 	if debug, err := strconv.ParseBool(url.Query().Get("debug")); err == nil && debug {
 		ch.logf = logger.Printf
 	}
+	ch.logf = func(format string, v ...interface{}) {
+		fmt.Printf("debug output: "+format, v...)
+	}
 	ch.logf("host(s)=%s, database=%s, username=%s",
 		strings.Join(hosts, ", "),
 		database,
