@@ -113,6 +113,8 @@ loop:
 		scanType = []string{}
 	case baseTypes[time.Time{}].Kind():
 		scanType = []time.Time{}
+	case baseTypes[Tuple{}].Kind():
+		scanType = []Tuple{}
 	default:
 		return nil, fmt.Errorf("unsupported Array type '%s'", column.ScanType().Name())
 	}
