@@ -449,7 +449,7 @@ func Test_Column_DateTime(t *testing.T) {
 				assert.Equal(t, timeNow, v)
 			}
 		}
-		if err := column.Write(encoder, timeNow.In(time.UTC).Format("2006-01-02 15:04:05")); assert.NoError(t, err) {
+		if err := column.Write(encoder, timeNow.Format("2006-01-02 15:04:05")); assert.NoError(t, err) {
 			if v, err := column.Read(decoder, false); assert.NoError(t, err) {
 				assert.Equal(t, timeNow, v)
 			}
@@ -523,7 +523,7 @@ func Test_Column_DateTimeWithTZ(t *testing.T) {
 				assert.Equal(t, timeNow, v)
 			}
 		}
-		if err := column.Write(encoder, timeNow.In(time.UTC).Format("2006-01-02 15:04:05")); assert.NoError(t, err) {
+		if err := column.Write(encoder, timeNow.Format("2006-01-02 15:04:05")); assert.NoError(t, err) {
 			if v, err := column.Read(decoder, false); assert.NoError(t, err) {
 				assert.Equal(t, timeNow, v)
 			}
@@ -694,7 +694,8 @@ func Test_Column_NullableDecimal64(t *testing.T) {
 			}
 		}
 
-		if assert.Equal(t, "column_name", columnBase.Name()) && assert.Equal(t, "Nullable(Decimal(18,5))", columnBase.CHType()) {
+		if assert.Equal(t, "column_name", columnBase.Name()) &&
+			assert.Equal(t, "Nullable(Decimal(18,5))", columnBase.CHType()) {
 			assert.Equal(t, reflect.Int64, columnBase.ScanType().Kind())
 		}
 	}
@@ -706,7 +707,10 @@ func Test_Column_NullableEnum8(t *testing.T) {
 		encoder = binary.NewEncoder(&buf)
 		decoder = binary.NewDecoder(&buf)
 	)
-	if columnBase, err := columns.Factory("column_name", "Nullable(Enum8('A'=1,'B'=2,'C'=3))", time.Local); assert.NoError(t, err) {
+	if columnBase, err := columns.Factory("column_name", "Nullable(Enum8('A'=1,'B'=2,'C'=3))", time.Local); assert.NoError(
+		t,
+		err,
+	) {
 
 		nullableCol, ok := columnBase.(*columns.Nullable)
 		if assert.True(t, ok) {
@@ -737,7 +741,8 @@ func Test_Column_NullableEnum8(t *testing.T) {
 			}
 		}
 
-		if assert.Equal(t, "column_name", columnBase.Name()) && assert.Equal(t, "Nullable(Enum8('A'=1,'B'=2,'C'=3))", columnBase.CHType()) {
+		if assert.Equal(t, "column_name", columnBase.Name()) &&
+			assert.Equal(t, "Nullable(Enum8('A'=1,'B'=2,'C'=3))", columnBase.CHType()) {
 			assert.Equal(t, reflect.String, columnBase.ScanType().Kind())
 		}
 	}
