@@ -23,10 +23,10 @@ type compressWriter struct {
 // NewCompressWriter wrap the io.Writer
 func NewCompressWriter(w io.Writer) *compressWriter {
 	p := &compressWriter{writer: w}
-	p.data = make([]byte, BlockMaxSize, BlockMaxSize)
+	p.data = make([]byte, BlockMaxSize)
 
 	zlen := lz4.CompressBound(BlockMaxSize) + HeaderSize
-	p.zdata = make([]byte, zlen, zlen)
+	p.zdata = make([]byte, zlen)
 	return p
 }
 

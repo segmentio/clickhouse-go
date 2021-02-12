@@ -28,10 +28,10 @@ func NewCompressReader(r io.Reader) *compressReader {
 		reader: r,
 		header: make([]byte, HeaderSize),
 	}
-	p.data = make([]byte, BlockMaxSize, BlockMaxSize)
+	p.data = make([]byte, BlockMaxSize)
 
 	zlen := lz4.CompressBound(BlockMaxSize) + HeaderSize
-	p.zdata = make([]byte, zlen, zlen)
+	p.zdata = make([]byte, zlen)
 
 	p.pos = len(p.data)
 	return p
