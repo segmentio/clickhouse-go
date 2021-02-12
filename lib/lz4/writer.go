@@ -38,7 +38,6 @@ const (
 	incompressible uint32 = 128
 	uninitHash            = 0x88888888
 
-	mfLimit = 8 + minMatch // The last match cannot start within the last 12 bytes.
 	// MaxInputSize is the largest buffer than can be compressed in a single block
 	MaxInputSize = 0x7E000000
 )
@@ -125,7 +124,7 @@ func Encode(dst, src []byte) (compressedSize int, error error) {
 	}
 	e := encoder{src: src, dst: dst, hashTable: hashTable}
 	defer func() {
-		hashPool.Put(hashTable)
+		hashPool.Put(hashTable) //nolint:staticcheck // SA6002: argument should be pointer-like to avoid allocations
 	}()
 	// binary.LittleEndian.PutUint32(dst, uint32(len(src)))
 	// e.dpos = 0
@@ -147,7 +146,8 @@ func Encode(dst, src []byte) (compressedSize int, error error) {
 		ref := e.hashTable[hash] + uninitHash
 		e.hashTable[hash] = e.pos - uninitHash
 
-		if ((e.pos-ref)>>16) != 0 || uint32(e.src[ref+3])<<24|uint32(e.src[ref+2])<<16|uint32(e.src[ref+1])<<8|uint32(e.src[ref+0]) != sequence {
+		if ((e.pos-ref)>>16) != 0 ||
+			uint32(e.src[ref+3])<<24|uint32(e.src[ref+2])<<16|uint32(e.src[ref+1])<<8|uint32(e.src[ref+0]) != sequence {
 			if e.pos-e.anchor > limit {
 				limit <<= 1
 				step += 1 + (step >> 2)
