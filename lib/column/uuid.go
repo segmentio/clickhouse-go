@@ -4,7 +4,6 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"reflect"
 
 	"github.com/ClickHouse/clickhouse-go/lib/binary"
 )
@@ -18,7 +17,6 @@ var ErrInvalidUUIDFormat = errors.New("invalid UUID format")
 
 type UUID struct {
 	base
-	scanType reflect.Type
 }
 
 func (*UUID) Read(decoder *binary.Decoder, isNull bool) (interface{}, error) {

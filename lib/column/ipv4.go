@@ -20,13 +20,13 @@ func (*IPv4) Read(decoder *binary.Decoder, isNull bool) (interface{}, error) {
 
 func (ip *IPv4) Write(encoder *binary.Encoder, v interface{}) error {
 	var netIP net.IP
-	switch v.(type) {
+	switch val := v.(type) {
 	case string:
-		netIP = net.ParseIP(v.(string))
+		netIP = net.ParseIP(val)
 	case net.IP:
-		netIP = v.(net.IP)
+		netIP = val
 	case *net.IP:
-		netIP = *(v.(*net.IP))
+		netIP = *(val)
 	default:
 		return &ErrUnexpectedType{
 			T:      v,

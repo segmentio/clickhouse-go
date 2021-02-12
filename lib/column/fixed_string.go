@@ -3,15 +3,13 @@ package column
 import (
 	"encoding"
 	"fmt"
-	"reflect"
 
 	"github.com/ClickHouse/clickhouse-go/lib/binary"
 )
 
 type FixedString struct {
 	base
-	len      int
-	scanType reflect.Type
+	len int
 }
 
 func (str *FixedString) Read(decoder *binary.Decoder, isNull bool) (interface{}, error) {
