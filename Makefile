@@ -19,7 +19,7 @@ endif
 .PHONY: test
 test:
 	$Qgo install $(GOTESTFLAGS)
-	$Qgo test $(GOTESTFLAGS) -coverpkg="./..." -coverprofile=.coverprofile ./...
+	$Qgo test $(GOTESTFLAGS) -coverpkg="./..." -coverprofile=.coverprofile $(shell go list ./... | grep -v 'examples')
 	# We want to add these back into coverage at some point.
 	$Qgrep -vE '(cmd)' < .coverprofile > .covprof && mv .covprof .coverprofile
 	$Qgo tool cover -func=.coverprofile
