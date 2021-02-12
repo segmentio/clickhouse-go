@@ -128,7 +128,12 @@ func (block *Block) writeArray(column column.Column, value Value, num, level int
 
 func (block *Block) AppendRow(args []driver.Value) error {
 	if len(block.Columns) != len(args) {
-		return fmt.Errorf("block: expected %d arguments (columns: %s), got %d", len(block.Columns), strings.Join(block.ColumnNames(), ", "), len(args))
+		return fmt.Errorf(
+			"block: expected %d arguments (columns: %s), got %d",
+			len(block.Columns),
+			strings.Join(block.ColumnNames(), ", "),
+			len(args),
+		)
 	}
 	block.Reserve()
 	{
@@ -195,8 +200,9 @@ func (block *Block) Write(serverInfo *ServerInfo, encoder *binary.Encoder) error
 	if err := block.info.write(encoder); err != nil {
 		return err
 	}
-	encoder.Uvarint(block.NumColumns)
-	encoder.Uvarint(block.NumRows)
+	// TODO: check errors?
+	_ = encoder.Uvarint(block.NumColumns)
+	_ = encoder.Uvarint(block.NumRows)
 	defer func() {
 		block.NumRows = 0
 		for i := range block.offsets {
@@ -204,8 +210,9 @@ func (block *Block) Write(serverInfo *ServerInfo, encoder *binary.Encoder) error
 		}
 	}()
 	for i, column := range block.Columns {
-		encoder.String(column.Name())
-		encoder.String(column.CHType())
+		// TODO: check errors?
+		_ = encoder.String(column.Name())
+		_ = encoder.String(column.CHType())
 		if len(block.buffers) == len(block.Columns) {
 			for _, offsets := range block.offsets[i] {
 				for _, offset := range offsets {

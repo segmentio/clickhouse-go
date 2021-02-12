@@ -268,7 +268,12 @@ func (ch *clickhouse) process() error {
 			if err != nil {
 				return err
 			}
-			ch.logf("[process] <- profiling: rows=%d, bytes=%d, blocks=%d", profileInfo.rows, profileInfo.bytes, profileInfo.blocks)
+			ch.logf(
+				"[process] <- profiling: rows=%d, bytes=%d, blocks=%d",
+				profileInfo.rows,
+				profileInfo.bytes,
+				profileInfo.blocks,
+			)
 		case protocol.ServerData:
 			block, err := ch.readBlock()
 			if err != nil {
@@ -308,7 +313,8 @@ func (ch *clickhouse) watchCancel(ctx context.Context) func() {
 		go func() {
 			select {
 			case <-done:
-				ch.cancel()
+				// TODO: check errors?
+				_ = ch.cancel()
 				finished <- struct{}{}
 				ch.logf("[cancel] <- done")
 			case <-finished:

@@ -146,7 +146,8 @@ func (conn *connect) Read(b []byte) (int, error) {
 		dstLen = len(b)
 	)
 	if currentTime := now(); conn.readTimeout != 0 && currentTime.Sub(conn.lastReadDeadlineTime) > (conn.readTimeout>>2) {
-		conn.SetReadDeadline(time.Now().Add(conn.readTimeout))
+		// TODO: check errors?
+		_ = conn.SetReadDeadline(time.Now().Add(conn.readTimeout))
 		conn.lastReadDeadlineTime = currentTime
 	}
 	for total < dstLen {
@@ -168,7 +169,8 @@ func (conn *connect) Write(b []byte) (int, error) {
 		srcLen = len(b)
 	)
 	if currentTime := now(); conn.writeTimeout != 0 && currentTime.Sub(conn.lastWriteDeadlineTime) > (conn.writeTimeout>>2) {
-		conn.SetWriteDeadline(time.Now().Add(conn.writeTimeout))
+		// TODO: check errors?
+		_ = conn.SetWriteDeadline(time.Now().Add(conn.writeTimeout))
 		conn.lastWriteDeadlineTime = currentTime
 	}
 	for total < srcLen {

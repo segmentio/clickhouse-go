@@ -216,14 +216,16 @@ func open(dsn string) (*clickhouse, error) {
 func (ch *clickhouse) hello(database, username, password string) error {
 	ch.logf("[hello] -> %s", ch.ClientInfo)
 	{
-		ch.encoder.Uvarint(protocol.ClientHello)
+		// TODO: check errors?
+		_ = ch.encoder.Uvarint(protocol.ClientHello)
 		if err := ch.ClientInfo.Write(ch.encoder); err != nil {
 			return err
 		}
 		{
-			ch.encoder.String(database)
-			ch.encoder.String(username)
-			ch.encoder.String(password)
+			// TODO: check errors?
+			_ = ch.encoder.String(database)
+			_ = ch.encoder.String(username)
+			_ = ch.encoder.String(password)
 		}
 		if err := ch.encoder.Flush(); err != nil {
 			return err

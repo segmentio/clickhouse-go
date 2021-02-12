@@ -33,7 +33,8 @@ func (enc *Encoder) SelectCompress(compress bool) {
 		return
 	}
 	if enc.compress && !compress {
-		enc.Flush()
+		// TODO: check errors?
+		_ = enc.Flush()
 	}
 	enc.compress = compress
 }

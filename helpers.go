@@ -95,7 +95,8 @@ func paramParser(reader *bytes.Reader) string {
 			if char == '_' || char >= '0' && char <= '9' || 'a' <= char && char <= 'z' || 'A' <= char && char <= 'Z' {
 				name.WriteRune(char)
 			} else {
-				reader.UnreadRune()
+				// TODO: check errors?
+				_ = reader.UnreadRune()
 				break
 			}
 		} else {
@@ -109,7 +110,8 @@ var selectRe = regexp.MustCompile(`\s+SELECT\s+`)
 
 func isInsert(query string) bool {
 	if f := strings.Fields(query); len(f) > 2 {
-		return strings.EqualFold("INSERT", f[0]) && strings.EqualFold("INTO", f[1]) && !selectRe.MatchString(strings.ToUpper(query))
+		return strings.EqualFold("INSERT", f[0]) && strings.EqualFold("INTO", f[1]) &&
+			!selectRe.MatchString(strings.ToUpper(query))
 	}
 	return false
 }
@@ -134,7 +136,8 @@ func quote(v driver.Value) string {
 
 func formatTime(value time.Time) string {
 	// toDate() overflows after 65535 days, but toDateTime() only overflows when time.Time overflows (after 9223372036854775807 seconds)
-	if days := value.Unix() / 24 / 3600; days <= math.MaxUint16 && (value.Hour()+value.Minute()+value.Second()+value.Nanosecond()) == 0 {
+	if days := value.Unix() / 24 / 3600; days <= math.MaxUint16 &&
+		(value.Hour()+value.Minute()+value.Second()+value.Nanosecond()) == 0 {
 		return fmt.Sprintf("toDate(%d)", days)
 	}
 	return fmt.Sprintf("toDateTime(%d)", value.Unix())

@@ -17,10 +17,11 @@ const (
 type ClientInfo struct{}
 
 func (ClientInfo) Write(encoder *binary.Encoder) error {
-	encoder.String(ClientName)
-	encoder.Uvarint(ClickHouseDBMSVersionMajor)
-	encoder.Uvarint(ClickHouseDBMSVersionMinor)
-	encoder.Uvarint(ClickHouseRevision)
+	// TODO: check errors?
+	_ = encoder.String(ClientName)
+	_ = encoder.Uvarint(ClickHouseDBMSVersionMajor)
+	_ = encoder.Uvarint(ClickHouseDBMSVersionMinor)
+	_ = encoder.Uvarint(ClickHouseRevision)
 	return nil
 }
 

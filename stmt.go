@@ -102,7 +102,11 @@ func (stmt *stmt) queryContext(ctx context.Context, args []driver.NamedValue) (d
 		columns:      meta.ColumnNames(),
 		blockColumns: meta.Columns,
 	}
-	go rows.receiveData()
+	go func() {
+		// TODO: check errors?
+		// TODO: is this safe?
+		_ = rows.receiveData()
+	}()
 	return &rows, nil
 }
 

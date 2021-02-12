@@ -70,7 +70,8 @@ func (cw *compressWriter) Flush() (err error) {
 	binary.LittleEndian.PutUint64(cw.zdata[0:], checkSum.Lower64())
 	binary.LittleEndian.PutUint64(cw.zdata[8:], checkSum.Higher64())
 
-	cw.writer.Write(cw.zdata[:compressedSize+ChecksumSize])
+	// TODO: check error?
+	_, _ = cw.writer.Write(cw.zdata[:compressedSize+ChecksumSize])
 	if w, ok := cw.writer.(WriteFlusher); ok {
 		err = w.Flush()
 	}
