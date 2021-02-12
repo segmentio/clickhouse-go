@@ -2,8 +2,9 @@ package clickhouse_test
 
 import (
 	"database/sql"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_Decimal(t *testing.T) {
