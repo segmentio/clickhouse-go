@@ -39,5 +39,5 @@ fmtfix: $(GOPATH)/bin/goimports
 
 .PHONY: lint
 lint: $(GOPATH)/bin/golangci-lint
-	$Qgolangci-lint run --timeout 3m $(find . -type d -not -path '*/\.*' -not -path './vendor/*')
+	$Qgolangci-lint run --skip-files '_test.go$$' --timeout 3m $(find . -type d -not -path '*/\.*' -not -path './vendor/*')
 

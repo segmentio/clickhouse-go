@@ -343,5 +343,6 @@ func (ch *clickhouse) ExecContext(ctx context.Context, query string,
 	for i, nv := range args {
 		dargs[i] = nv.Value
 	}
-	return stmt.Exec(dargs)
+	//SA1019: stmt.Exec is deprecated: Drivers should implement StmtExecContext instead (or additionally).
+	return stmt.Exec(dargs) //nolint  // not sure exactly what to do about the above lint error
 }

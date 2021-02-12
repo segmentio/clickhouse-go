@@ -45,11 +45,10 @@ var (
 func init() {
 	sql.Register("clickhouse", &bootstrap{})
 	go func() {
-		for tick := time.Tick(time.Second); ; {
-			select {
-			case <-tick:
-				atomic.AddInt64(&unixtime, int64(time.Second))
-			}
+		tick := time.NewTicker(time.Second)
+		for {
+			<-tick.C
+			atomic.AddInt64(&unixtime, int64(time.Second))
 		}
 	}()
 }
@@ -85,9 +84,9 @@ func open(dsn string) (*clickhouse, error) {
 		return nil, err
 	}
 	var (
+		secure           bool
 		hosts            = []string{url.Host}
 		query            = url.Query()
-		secure           = false
 		skipVerify       = false
 		tlsConfigName    = query.Get("tls_config")
 		noDelay          = true

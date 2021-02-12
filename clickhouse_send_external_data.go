@@ -4,11 +4,11 @@ import "github.com/ClickHouse/clickhouse-go/lib/data"
 
 func (ch *clickhouse) sendExternalTables(externalTables []ExternalTable) error {
 	ch.logf("[send external tables] count %d", len(externalTables))
-	if externalTables == nil || len(externalTables) == 0 {
+	if len(externalTables) == 0 {
 		return nil
 	}
 	block := &data.Block{}
-	sentTables := make(map[string]bool, 0)
+	sentTables := make(map[string]bool)
 	for _, externalTable := range externalTables {
 		if _, ok := sentTables[externalTable.Name]; ok {
 			continue
